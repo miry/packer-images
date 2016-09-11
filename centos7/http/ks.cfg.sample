@@ -1,0 +1,50 @@
+install
+cdrom
+lang en_US.UTF-8
+keyboard us
+unsupported_hardware
+network --bootproto=dhcp
+firewall --disabled
+authconfig --enableshadow --passalgo=sha512
+selinux --permissive
+timezone UTC
+bootloader --location=mbr
+text
+skipx
+zerombr
+clearpart --all --initlabel
+autopart
+auth  --useshadow  --enablemd5
+firstboot --disabled
+reboot
+rootpw $ROOT_PASSWORD
+user --name=centos --groups=centos --password=$USER_PASSWORD
+
+%packages --ignoremissing
+
+@Base
+@Core
+@Development Tools
+openssl-devel
+readline-devel
+zlib-devel
+kernel-devel
+vim
+wget
+curl
+telnet
+zsh
+%end
+
+%post
+# sudo
+echo "centos ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+# ssh key
+mkdir /home/centos/.ssh
+echo '$USER_KEY' >> /home/centos/.ssh/authorized_keys
+chmod 0600 -R /home/centos/.ssh
+chown centos:centos -R /home/centos/.ssh
+sed -i "s/^.*requiretty/#Defaults requiretty/" /etc/sudoers
+%end
+
