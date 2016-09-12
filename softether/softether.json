@@ -1,0 +1,35 @@
+{
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "echo 'centos' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "script": "scripts/install.sh"
+    }
+  ],
+
+  "builders": [
+    {
+      "type": "vmware-vmx",
+      "vm_name": "softether-packer",
+      "vmx_data": {
+        "cpuid.coresPerSocket": "1",
+        "memsize": "512",
+        "numvcpus": "2"
+      },
+      "ssh_username": "centos",
+      "ssh_password": "centos",
+      "ssh_wait_timeout": "10000s",
+
+      "source_path": "../centos7/output-vmware-iso/centos-7-packer-1511.vmx",
+
+      "shutdown_command": "echo 'centos'|sudo -S /sbin/halt -h -p",
+      "fusion_app_path": "{{ user `fusion_app_path` }}"
+    }
+  ],
+
+  "variables": {
+    "fusion_app_path": "/Applications/VMware Fusion.app"
+  }
+}
+

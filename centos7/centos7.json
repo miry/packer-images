@@ -11,7 +11,7 @@
       "iso_checksum": "88c0437f0a14c6e2c94426df9d43cd67",
       "iso_checksum_type": "md5",
       "ssh_username": "centos",
-      "ssh_password": "centos",
+      "ssh_password": "{{ user `centos_password` }}",
       "ssh_wait_timeout": "10000s",
       "fusion_app_path": "{{ user `fusion_app_path` }}",
 
@@ -25,7 +25,8 @@
   ],
 
   "variables": {
-    "fusion_app_path": "/Applications/VMware Fusion.app"
+    "fusion_app_path": "/Applications/VMware Fusion.app",
+    "centos_password": "centos"
   }
 }
 

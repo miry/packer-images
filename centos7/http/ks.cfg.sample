@@ -21,7 +21,6 @@ rootpw $ROOT_PASSWORD
 user --name=centos --groups=centos --password=$USER_PASSWORD
 
 %packages --ignoremissing
-
 @Base
 @Core
 @Development Tools
@@ -37,6 +36,9 @@ zsh
 %end
 
 %post
+yum update -y
+yum install -y wget net-tools iotop vim telnet curl zsh
+
 # sudo
 echo "centos ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
