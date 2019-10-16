@@ -1,0 +1,36 @@
+{
+  "builders": [
+    {
+      "vm_name": "centos-7-packer-1908",
+
+      "iso_urls": [
+        "iso/CentOS-7-x86_64-Minimal-1908.iso",
+        "http://mirror.de.leaseweb.net/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1908.iso"
+      ],
+      "iso_checksum_url": "http://mirror.de.leaseweb.net/centos/7/isos/x86_64/sha256sum.txt",
+      "iso_checksum_type": "sha256",
+      "iso_target_path": "iso",
+
+      "ssh_username": "centos",
+      "ssh_password": "{{ user `centos_password` }}",
+      "ssh_wait_timeout": "10m",
+
+      "http_directory": "http",
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+      ],
+      "boot_wait": "5s",
+      "headless": false,
+
+      "shutdown_command": "echo '{{ user `centos_password` }}' | sudo -S /sbin/halt -h -p",
+
+      "type": "qemu",
+      "memory": "4096",
+      "cpus": 4
+    }
+  ],
+
+  "variables": {
+    "centos_password": "centos"
+  }
+}

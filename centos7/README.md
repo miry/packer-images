@@ -1,16 +1,25 @@
-## Base Centos 7 VMware Image
+## Base Centos Image
 
-1. Create `http/ks.cfg` file. There is sample `http/ks.cfg.sample` that contain base packages and sample user `centos` with `sudo` permissions.
+1. Create `http/ks.cfg` file. There is a sample `http/ks.cfg.sample`, that specifies setup settings for centos installer, install base packages and creates an user `centos` with `sudo` permissions.
 2. Run packer build example for MacOS:
 
- ```bash
- $ packer build -var fusion_app_path="$HOME/Applications/VMware Fusion.app" centos7.json
+ ```shell
+ $ packer build -var centos_password="centos" image.json
  ```
 
 Or use build script to generate `http/ks.cfg` and run packer build
 
 ```bash
-$ ./build.sh
+$ make build
 ```
 
 This build is based on https://github.com/geerlingguy/packer-centos-6
+
+
+## Usage
+
+It suppose to be used to build other images. Check current build:
+
+```shell
+$ make run
+```

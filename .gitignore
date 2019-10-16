@@ -1,5 +1,5 @@
 packer_cache/
-centos7/iso/
-centos7/output-vmware-iso/
-centos7/http/ks.cfg
-softether/output-vmware-vmx/
+centos*/iso/
+centos*/output-*/
+centos*/http/ks.cfg
+softether/output-*/

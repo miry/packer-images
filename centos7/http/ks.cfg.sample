@@ -44,9 +44,11 @@ echo "centos ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # ssh key
 mkdir /home/centos/.ssh
-echo '$USER_KEY' >> /home/centos/.ssh/authorized_keys
+cat <<EOF >> /home/centos/.ssh/authorized_keys
+$USER_KEY
+EOF
+
 chmod 0600 -R /home/centos/.ssh
 chown centos:centos -R /home/centos/.ssh
 sed -i "s/^.*requiretty/#Defaults requiretty/" /etc/sudoers
 %end
-
