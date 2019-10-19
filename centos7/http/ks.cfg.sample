@@ -18,7 +18,7 @@ auth  --useshadow  --enablemd5
 firstboot --disabled
 reboot
 rootpw $ROOT_PASSWORD
-user --name=centos --groups=centos --password=$USER_PASSWORD
+user --name=centos --groups=centos --password=$CENTOS_PASSWORD
 
 %packages --ignoremissing
 @Base
