@@ -20,24 +20,25 @@ reboot
 rootpw $ROOT_PASSWORD
 user --name=centos --groups=centos --password=$CENTOS_PASSWORD
 
-%packages --ignoremissing
+%packages --ignoremissing --excludedocs
 @Base
 @Core
 @Development Tools
+-@Graphical Internet
 openssl-devel
 readline-devel
 zlib-devel
 kernel-devel
-vim
 wget
 curl
-telnet
-zsh
 %end
 
 %post
+yum install -y epel-release
 yum update -y
-yum install -y wget net-tools iotop vim telnet curl zsh
+yum install -y httping iftop iperf3 ivpsadm net-tools nmap-ncat ntp sysstat tcpdump telnet tmux tree vim wireshark yum-plugin-fastestmirror yum-utils zsh
+
+sudo systemctl enable ntpd
 
 # sudo
 echo "centos ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
@@ -48,7 +49,7 @@ cat <<EOF >> /home/centos/.ssh/authorized_keys
 $USER_KEY
 EOF
 
-chmod 0600 -R /home/centos/.ssh
+chmod 0700 -R /home/centos/.ssh
 chown centos:centos -R /home/centos/.ssh
 sed -i "s/^.*requiretty/#Defaults requiretty/" /etc/sudoers
 %end

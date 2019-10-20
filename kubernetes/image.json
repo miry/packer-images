@@ -1,0 +1,44 @@
+{
+  "variables": {
+    "kube_version": "v1.17.0-alpha.2",
+    "centos_kube_version": "1.16.2-0",
+    "base_image_path": "../centos7/output-qemu/centos-7-packer-1908.qcow2",
+    "centos_password": "centos"
+  },
+
+  "builders": [
+    {
+      "vm_name": "kube-packer-{{ user `kube_version` }}.qcow2",
+      "disk_image": true,
+      "iso_urls": [
+        "{{ user `base_image_path` }}"
+      ],
+      "iso_checksum_type": "none",
+      "ssh_username": "centos",
+      "ssh_password": "{{ user `centos_password` }}",
+      "ssh_pty": true,
+      "ssh_wait_timeout": "20m",
+      "headless": true,
+      "shutdown_command": "echo '{{ user `centos_password` }}' | sudo -S /sbin/halt -h -p",
+      "type": "qemu",
+      "memory": "8192",
+      "cpus": 4
+    }
+  ],
+
+
+  "post-processors": null,
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "{{template_dir}}/scripts/docker_ce.sh",
+        "{{template_dir}}/scripts/kube_v117_packages.sh"
+      ],
+      "environment_vars": [
+        "KUBE_VERSION={{ user `kube_version` }}",
+        "CENTOS_KUBE_VERSION={{ user `centos_kube_version` }}"
+      ]
+    }
+  ]
+}
